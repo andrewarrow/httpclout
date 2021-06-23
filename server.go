@@ -15,7 +15,9 @@ import (
 func WelcomeIndex(c *gin.Context) {
 	username := c.Query("username")
 	list := cloutcli.FollowingFeedPosts(username)
-	fmt.Println(list)
+	for _, item := range list {
+		item.TimestampNanos = item.TimestampNanos / 1000000000
+	}
 	c.HTML(http.StatusOK, "index.tmpl", gin.H{
 		"posts": list,
 	})

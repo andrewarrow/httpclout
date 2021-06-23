@@ -2,11 +2,9 @@
 {{range $i, $item := .posts}}
 <tr>
   <td>{{add $i 1}}</td>
-  <td><a href="https://bitclout.com/posts/{{$item.PostHashHex}}">{{$item.PostHashHex}}</a></td>
+  <td nowrap><a href="https://bitclout.com/posts/{{$item.PostHashHex}}">{{ago $item.TimestampNanos}}</a></td>
   <td>{{$item.Body}}</td>
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  <td>{{$item.TimestampNanos}}</td>
+  <td><a href="https://bitclout.com/u/{{$item.ProfileEntryResponse.Username}}">{{$item.ProfileEntryResponse.Username}}</a></td>
 </tr>
 {{end}}
 </table>
