@@ -16,9 +16,17 @@ import (
 func WelcomeIndex(c *gin.Context) {
 	username := c.Query("username")
 	exclude := c.Query("exclude")
+	excludeList := strings.Split(exclude, ",")
 	list := []lib.Post{}
 	for _, item := range cloutcli.FollowingFeedPosts(username) {
-		if exclude != "" && strings.Contains(item.Body, exclude) {
+		skip := false
+		for _, x := range excludeList {
+			if x != "" && strings.Contains(item.Body, x) {
+				skip = true
+				break
+			}
+		}
+		if skip {
 			continue
 		}
 		list = append(list, item)
