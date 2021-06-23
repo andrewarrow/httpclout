@@ -8,13 +8,22 @@ import (
 	"time"
 
 	"github.com/andrewarrow/cloutcli"
+	"github.com/andrewarrow/cloutcli/lib"
 	"github.com/gin-gonic/gin"
 	"github.com/justincampbell/timeago"
 )
 
 func WelcomeIndex(c *gin.Context) {
 	username := c.Query("username")
-	list := cloutcli.FollowingFeedPosts(username)
+	exclude := c.Query("exclude")
+	list := []lib.Post{}
+	for _, item := range cloutcli.FollowingFeedPosts(username) {
+		if exclude != "" && strings.Contains(item.Body, exclude) {
+			continue
+		}
+		list = append(list, item)
+	}
+
 	for _, item := range list {
 		item.TimestampNanos = item.TimestampNanos / 1000000000
 	}
