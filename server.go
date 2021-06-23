@@ -15,6 +15,10 @@ import (
 
 func WelcomeIndex(c *gin.Context) {
 	username := c.Query("username")
+	if username == "" {
+		c.HTML(http.StatusOK, "form.tmpl", gin.H{})
+		return
+	}
 	exclude := c.Query("exclude")
 	excludeList := strings.Split(exclude, ",")
 	list := []lib.Post{}
