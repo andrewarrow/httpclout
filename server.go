@@ -7,13 +7,17 @@ import (
 	"strings"
 	"time"
 
+	"github.com/andrewarrow/cloutcli"
 	"github.com/gin-gonic/gin"
 	"github.com/justincampbell/timeago"
 )
 
 func WelcomeIndex(c *gin.Context) {
+	username := c.Query("username")
+	list := cloutcli.FollowingFeedPosts(username)
+	fmt.Println(list)
 	c.HTML(http.StatusOK, "index.tmpl", gin.H{
-		"flash": "",
+		"posts": list,
 	})
 }
 
