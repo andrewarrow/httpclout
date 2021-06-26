@@ -11,8 +11,11 @@ open source <a style="color: green" href="https://github.com/andrewarrow/httpclo
                 <table width="100%">
                 {{range $i, $item := .likes}}
                 <tr>
-                  <td>{{add $i 1}}</td>
                   <td>
+                          {{ $item.Count }}
+                  </td>
+                  <td>
+                          {{ $item.Username }}
                   </td>
                 </tr>
                 {{end}}
@@ -23,8 +26,11 @@ open source <a style="color: green" href="https://github.com/andrewarrow/httpclo
                 <table width="100%">
                 {{range $i, $item := .reclouts}}
                 <tr>
-                  <td>{{add $i 1}}</td>
                   <td>
+                          {{ $item.Count }}
+                  </td>
+                  <td>
+                          {{ $item.Username }}
                   </td>
                 </tr>
                 {{end}}
@@ -35,8 +41,11 @@ open source <a style="color: green" href="https://github.com/andrewarrow/httpclo
                 <table width="100%">
                 {{range $i, $item := .diamonds}}
                 <tr>
-                  <td>{{add $i 1}}</td>
                   <td>
+                          {{ $item.Count }}
+                  </td>
+                  <td>
+                          {{ $item.Username }}
                   </td>
                 </tr>
                 {{end}}
