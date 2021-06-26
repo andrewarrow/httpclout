@@ -1,0 +1,50 @@
+
+<div style="text-align: center; padding: 5px; background-color: black; color: green; font-family: courier; font-size: 1.25em;">
+open source <a style="color: green" href="https://github.com/andrewarrow/httpclout">https://github.com/andrewarrow/httpclout</a>
+</div>
+
+<h1>Biggest Fans of {{.username}}</h1>
+<table width="100%">
+<tr>
+        <td valign="top">
+                <h2>Top Likers</h2>
+                <table width="100%">
+                {{range $i, $item := .likes}}
+                <tr>
+                  <td>{{add $i 1}}</td>
+                  <td>
+                  </td>
+                </tr>
+                {{end}}
+                </table>
+        </td>
+        <td valign="top">
+                <h2>Top Reclouters</h2>
+                <table width="100%">
+                {{range $i, $item := .reclouts}}
+                <tr>
+                  <td>{{add $i 1}}</td>
+                  <td>
+                  </td>
+                </tr>
+                {{end}}
+                </table>
+        </td>
+        <td valign="top">
+                <h2>Top Diamond Givers</h2>
+                <table width="100%">
+                {{range $i, $item := .diamonds}}
+                <tr>
+                  <td>{{add $i 1}}</td>
+                  <td>
+                  </td>
+                </tr>
+                {{end}}
+                </table>
+        </td>
+</tr>
+</table>
+
+<div style="text-align: center; padding: 5px; background-color: black; color: green; font-family: courier; font-size: 1.25em;">
+open source <a style="color: green" href="https://github.com/andrewarrow/httpclout">https://github.com/andrewarrow/httpclout</a>
+</div>

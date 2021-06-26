@@ -13,6 +13,15 @@ import (
 	"github.com/justincampbell/timeago"
 )
 
+func RoutesSetup(router *gin.Engine) {
+
+	//router.Static("/static", "static")
+	router.GET("/", WelcomeIndex)
+	router.GET("/biggest-fans-of/:username", BiggestFanOfShow)
+
+	AddTemplates(router)
+}
+
 func WelcomeIndex(c *gin.Context) {
 	username := c.Query("username")
 	if username == "" {
@@ -42,14 +51,6 @@ func WelcomeIndex(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.tmpl", gin.H{
 		"posts": list,
 	})
-}
-
-func RoutesSetup(router *gin.Engine) {
-
-	//router.Static("/static", "static")
-	router.GET("/", WelcomeIndex)
-
-	AddTemplates(router)
 }
 
 func AddTemplates(r *gin.Engine) {
