@@ -17,12 +17,17 @@ func RoutesSetup(router *gin.Engine) {
 
 	//router.Static("/static", "static")
 	router.GET("/", WelcomeIndex)
+	router.GET("/exclude", ExcludeIndex)
 	router.GET("/biggest-fans-of/:username", BiggestFanOfShow)
 
 	AddTemplates(router)
 }
 
 func WelcomeIndex(c *gin.Context) {
+	c.HTML(http.StatusOK, "form.tmpl", gin.H{})
+	return
+}
+func ExcludeIndex(c *gin.Context) {
 	username := c.Query("username")
 	if username == "" {
 		c.HTML(http.StatusOK, "form.tmpl", gin.H{})
