@@ -5,15 +5,21 @@
 
           <div>
                   <h2>Your Feed</h2>
+
+                  <div>
+                          <img src="http://192.168.1.50:17001/api/v0/get-single-profile-picture/{{.pub58}}?fallback=https://bitclout.com/assets/img/default_profile_pic.png"/>
+                  </div>
+
+
                   <h2><a href="#" onclick="removeCookies(); return false;">Log Out</a></h2>
           </div>
 
 <script>
 function removeCookies() {
-  document.cookie = 'httpclout_cookie1=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
-  document.cookie = 'httpclout_cookie2=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
-  document.cookie = 'httpclout_cookie3=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
-  document.cookie = 'httpclout_cookie4=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+  document.cookie = 'httpclout_pub58=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+  document.cookie = 'httpclout_level=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+  document.cookie = 'httpclout_hmac=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+  document.cookie = 'httpclout_hex=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
   window.location.reload(false);
 }
 </script>

@@ -25,9 +25,9 @@ func RoutesSetup(router *gin.Engine) {
 
 func WelcomeIndex(c *gin.Context) {
 	//httpclout_cookie1
-	val, _ := c.Cookie("httpclout_cookie1")
-	if val == "" {
-		c.HTML(http.StatusOK, "welcome.tmpl", gin.H{})
+	pub58, _ := c.Cookie("httpclout_pub58")
+	if pub58 == "" {
+		c.HTML(http.StatusOK, "welcome.tmpl", gin.H{"pub58": pub58})
 	} else {
 		c.HTML(http.StatusOK, "feed.tmpl", gin.H{})
 	}

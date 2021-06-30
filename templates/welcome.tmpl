@@ -21,10 +21,10 @@ function handleMessage(e) {
     var pub58 = e.data.payload.publicKeyAdded;
     console.log(pub58);
     var me = e.data.payload.users[pub58];
-    document.cookie = 'httpclout_cookie1='+pub58+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
-    document.cookie = 'httpclout_cookie2='+me.accessLevel+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
-    document.cookie = 'httpclout_cookie3='+me.accessLevelHmac+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
-    document.cookie = 'httpclout_cookie4='+me.encryptedSeedHex+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+    document.cookie = 'httpclout_pub58='+pub58+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+    document.cookie = 'httpclout_level='+me.accessLevel+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+    document.cookie = 'httpclout_hmac='+me.accessLevelHmac+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+    document.cookie = 'httpclout_hex='+me.encryptedSeedHex+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
     window.location.reload(false);
   }
 }
