@@ -27,9 +27,10 @@ func WelcomeIndex(c *gin.Context) {
 	//httpclout_cookie1
 	pub58, _ := c.Cookie("httpclout_pub58")
 	if pub58 == "" {
-		c.HTML(http.StatusOK, "welcome.tmpl", gin.H{"pub58": pub58})
+		c.HTML(http.StatusOK, "welcome.tmpl", gin.H{})
 	} else {
-		c.HTML(http.StatusOK, "feed.tmpl", gin.H{})
+		c.HTML(http.StatusOK, "feed.tmpl",
+			gin.H{"baseURL": "http://192.168.1.50:17001", "pub58": pub58})
 	}
 	return
 }

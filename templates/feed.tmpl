@@ -1,17 +1,25 @@
 {{template "_header" .}}
 
-          <h1>httpclout</h1>
-          <h2><a href="https://github.com/andrewarrow/httpclout">https://github.com/andrewarrow/httpclout</a></h2>
+<table width="100%">
+<tr>
+        <td> <h1>httpclout</h1> </td>
+        <td>
+        <h2><a href="https://github.com/andrewarrow/httpclout">https://github.com/andrewarrow/httpclout</a></h2>
+        </td>
+        <td>
+                <img src="{{.baseURL}}/api/v0/get-single-profile-picture/{{.pub58}}?fallback=https://bitclout.com/assets/img/default_profile_pic.png"/>
+        <h2><a href="#" onclick="removeCookies(); return false;">Log Out</a></h2>
+        </td>
+</tr>
+</table>
 
           <div>
                   <h2>Your Feed</h2>
 
                   <div>
-                          <img src="http://192.168.1.50:17001/api/v0/get-single-profile-picture/{{.pub58}}?fallback=https://bitclout.com/assets/img/default_profile_pic.png"/>
                   </div>
 
 
-                  <h2><a href="#" onclick="removeCookies(); return false;">Log Out</a></h2>
           </div>
 
 <script>
