@@ -24,7 +24,7 @@ func RoutesSetup(router *gin.Engine) {
 }
 
 func WelcomeIndex(c *gin.Context) {
-	c.HTML(http.StatusOK, "form.tmpl", gin.H{})
+	c.HTML(http.StatusOK, "welcome.tmpl", gin.H{})
 	return
 }
 func ExcludeIndex(c *gin.Context) {
