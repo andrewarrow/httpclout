@@ -4,7 +4,7 @@
           <h2><a href="https://github.com/andrewarrow/httpclout">https://github.com/andrewarrow/httpclout</a></h2>
 
           <div>
-                  <h2><a href="#" onclick="window.addEventListener('message', handleMessage); window.open('https://identity.bitclout.com/log-in', null, 'toolbar=no, width=800, height=1000, top=0, left=0')">Log In</a></h2>
+                  <h2><a href="#" onclick="window.addEventListener('message', handleMessage); window.CloutLogin = window.open('https://identity.bitclout.com/log-in', null, 'toolbar=no, width=800, height=1000, top=0, left=0')">Log In</a></h2>
           </div>
 
 <script>
@@ -19,6 +19,7 @@ function handleMessage(e) {
   } else if (e.data.method == "login") {
     var pub58 = e.data.payload.publicKeyAdded;
     console.log(pub58);
+    window.CloutLogin.close();
   }
 }
 </script>
