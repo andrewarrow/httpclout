@@ -19,7 +19,7 @@ func RoutesSetup(router *gin.Engine) {
 	//router.Static("/static", "static")
 	router.GET("/", WelcomeIndex)
 	router.GET("/exclude", ExcludeIndex)
-	router.GET("/biggest-fans-of/:username", BiggestFanOfShow)
+	router.GET("httpclout/biggest-fans-of/:username", BiggestFanOfShow)
 
 	AddTemplates(router)
 }

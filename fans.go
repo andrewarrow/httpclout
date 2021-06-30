@@ -13,9 +13,10 @@ var usernameMutex sync.Mutex
 func BiggestFanOfShow(c *gin.Context) {
 	username := c.Param("username")
 	//usernameMutex.Lock()
-	likes := cloutcli.QuerySqliteTopLikers(username, "50")
-	reclouts := cloutcli.QuerySqliteTopReclouters(username, "50")
-	diamonds := cloutcli.QuerySqliteTopDiamondGivers(username, "50")
+	path := "/home/aa/httpclout/user_sqlites/"
+	likes := cloutcli.QuerySqliteTopLikers(path+username+".db", "50")
+	reclouts := cloutcli.QuerySqliteTopReclouters(path+username+".db", "50")
+	diamonds := cloutcli.QuerySqliteTopDiamondGivers(path+username+".db", "50")
 	//usernameMutex.Unlock()
 	c.HTML(http.StatusOK, "biggest_fan_of.tmpl",
 		gin.H{"username": username,
