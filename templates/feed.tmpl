@@ -14,12 +14,9 @@
 </table>
 
           <div>
-                  <h2>Your Feed</h2>
-
 <table width="100%">
 {{range $i, $item := .items}}
 <tr>
-  <td>{{add $i 1}}</td>
   <td>
 
           {{if $item.RecloutedPostEntryResponse }}
@@ -35,11 +32,11 @@
           {{end}}
           </a>
   </td>
-  <td>
+  <td width="50%">
           {{$item.Body}}
           {{range $j, $img := $item.ImageURLs}}
                   <br/>
-                  <img src="{{$img}}" width="400"/>
+                  <img src="{{$img}}" width="200"/>
           {{end}}
 
                   <br/>
