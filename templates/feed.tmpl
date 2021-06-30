@@ -16,9 +16,41 @@
           <div>
                   <h2>Your Feed</h2>
 
-                  <div>
-                  </div>
+<table width="100%">
+{{range $i, $item := .items}}
+<tr>
+  <td>{{add $i 1}}</td>
+  <td>
 
+          {{if $item.RecloutedPostEntryResponse }}
+          <a href="https://bitclout.com/u/{{$item.RecloutedPostEntryResponse.ProfileEntryResponse.Username}}">{{$item.RecloutedPostEntryResponse.ProfileEntryResponse.Username}}</a>
+          <br/>
+          <a href="https://bitclout.com/u/{{$item.RecloutedPostEntryResponse.ProfileEntryResponse.Username}}">
+          <img height="50" src="https://bitclout.com/api/v0/get-single-profile-picture/{{$item.RecloutedPostEntryResponse.PosterPublicKeyBase58Check}}"/>
+           {{else}}
+          <a href="https://bitclout.com/u/{{$item.ProfileEntryResponse.Username}}">{{$item.ProfileEntryResponse.Username}}</a>
+          <br/>
+          <a href="https://bitclout.com/u/{{$item.ProfileEntryResponse.Username}}">
+          <img height="50" src="https://bitclout.com/api/v0/get-single-profile-picture/{{$item.PosterPublicKeyBase58Check}}"/>
+          {{end}}
+          </a>
+  </td>
+  <td>
+          {{$item.Body}}
+          {{range $j, $img := $item.ImageURLs}}
+                  <br/>
+                  <img src="{{$img}}" width="400"/>
+          {{end}}
+
+                  <br/>
+          {{if $item.RecloutedPostEntryResponse }}
+              {{$item.RecloutedPostEntryResponse.Body}}
+          {{end}}
+  </td>
+  <td nowrap><a href="https://bitclout.com/posts/{{$item.PostHashHex}}">{{ago $item.TimestampNanos}}</a></td>
+</tr>
+{{end}}
+</table>
 
           </div>
 

@@ -9,6 +9,7 @@ import (
 
 	"github.com/andrewarrow/cloutcli"
 	"github.com/andrewarrow/cloutcli/lib"
+	"github.com/andrewarrow/cloutcli/network"
 	"github.com/gin-gonic/gin"
 	"github.com/justincampbell/timeago"
 )
@@ -24,13 +25,14 @@ func RoutesSetup(router *gin.Engine) {
 }
 
 func WelcomeIndex(c *gin.Context) {
-	//httpclout_cookie1
 	pub58, _ := c.Cookie("httpclout_pub58")
 	if pub58 == "" {
 		c.HTML(http.StatusOK, "welcome.tmpl", gin.H{})
 	} else {
+		network.NodeURL = "https://cloutcli.com/"
+		items := cloutcli.FollowingFeedPub58(pub58)
 		c.HTML(http.StatusOK, "feed.tmpl",
-			gin.H{"baseURL": "http://192.168.1.50:17001", "pub58": pub58})
+			gin.H{"baseURL": network.NodeURL, "pub58": pub58, "items": items})
 	}
 	return
 }
