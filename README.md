@@ -1,5 +1,12 @@
 # httpclout
 
+This repo is going to be an alternative [Frontend](https://github.com/bitclout/frontend/) that you can run.
+
+It will try and use as little javascript as possible and put most logic in golang.
+
+
+# history
+
 a little webapp that just imports [cloutcli](https://github.com/andrewarrow/cloutcli) and calls
 
 ```
