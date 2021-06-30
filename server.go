@@ -30,10 +30,11 @@ func WelcomeIndex(c *gin.Context) {
 	if pub58 == "" {
 		c.HTML(http.StatusOK, "welcome.tmpl", gin.H{})
 	} else {
-		network.NodeURL = os.Getenv("CLOUT_API_URL")
+		network.NodeURL = os.Getenv("CLOUT_API_INTERNAL_URL")
 		items := cloutcli.FollowingFeedPub58(pub58)
 		c.HTML(http.StatusOK, "feed.tmpl",
-			gin.H{"baseURL": network.NodeURL, "pub58": pub58, "items": items})
+			gin.H{"baseURL": os.Getenv("CLOUT_API_EXTERNAL_URL"),
+				"pub58": pub58, "items": items})
 	}
 	return
 }
