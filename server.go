@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"net/http/httputil"
+	u "net/url"
 	"os"
 	"strings"
 	"time"
@@ -21,10 +23,23 @@ func RoutesSetup(router *gin.Engine) {
 	router.GET("/", WelcomeIndex)
 	router.GET("/exclude", ExcludeIndex)
 	router.GET("httpclout/biggest-fans-of/:username", BiggestFanOfShow)
+	router.NoRoute(HandleApi)
 
 	AddTemplates(router)
 }
 
+func HandleApi(c *gin.Context) {
+	url, _ := u.Parse("http://localhost:17001")
+	reverseProxy := httputil.NewSingleHostReverseProxy(url)
+	reverseProxy.Director = func(req *http.Request) {
+		req.Header.Add("X-Forwarded-Host", req.Host)
+		req.URL.Scheme = url.Scheme
+		req.URL.Host = url.Host
+		req.Host = url.Host
+	}
+
+	reverseProxy.ServeHTTP(c.Writer, c.Request)
+}
 func WelcomeIndex(c *gin.Context) {
 	pub58, _ := c.Cookie("httpclout_pub58")
 	if pub58 == "" {
