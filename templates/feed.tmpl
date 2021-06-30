@@ -1,0 +1,20 @@
+{{template "_header" .}}
+
+          <h1>httpclout</h1>
+          <h2><a href="https://github.com/andrewarrow/httpclout">https://github.com/andrewarrow/httpclout</a></h2>
+
+          <div>
+                  <h2>Your Feed</h2>
+                  <h2><a href="#" onclick="removeCookies(); return false;">Log Out</a></h2>
+          </div>
+
+<script>
+function removeCookies() {
+  document.cookie = 'httpclout_cookie1=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+  document.cookie = 'httpclout_cookie2=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+  document.cookie = 'httpclout_cookie3=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+  document.cookie = 'httpclout_cookie4=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+  window.location.reload(false);
+}
+</script>
+{{template "_footer" .}}          

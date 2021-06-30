@@ -24,7 +24,13 @@ func RoutesSetup(router *gin.Engine) {
 }
 
 func WelcomeIndex(c *gin.Context) {
-	c.HTML(http.StatusOK, "welcome.tmpl", gin.H{})
+	//httpclout_cookie1
+	val, _ := c.Cookie("httpclout_cookie1")
+	if val == "" {
+		c.HTML(http.StatusOK, "welcome.tmpl", gin.H{})
+	} else {
+		c.HTML(http.StatusOK, "feed.tmpl", gin.H{})
+	}
 	return
 }
 func ExcludeIndex(c *gin.Context) {
