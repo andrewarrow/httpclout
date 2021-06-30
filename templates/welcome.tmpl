@@ -10,13 +10,13 @@
 <script>
 function handleMessage(e) {
   console.log(e);
-  if e.data.method == "initialize" {
+  if (e.data.method == "initialize") {
     var thing = Object();
     thing.id = e.data.id;
     thing.service = "identity";
     thing.payload = Object();
     e.source.postMessage(thing, "*");
-  } else if e.data.method == "login" {
+  } else if (e.data.method == "login") {
     var pub58 = e.data.payload.publicKeyAdded;
     console.log(pub58);
   }
