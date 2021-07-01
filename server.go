@@ -50,6 +50,11 @@ type PostWithLines struct {
 }
 
 func HandleDiamond(c *gin.Context) {
+	pub58, _ := c.Cookie("httpclout_pub58")
+	hash := c.PostForm("hash")
+	theirPub58 := c.PostForm("theirPub58")
+	tx := cloutcli.GiveDiamond(pub58, theirPub58, hash)
+	fmt.Println(tx)
 	c.JSON(http.StatusOK, "")
 }
 
