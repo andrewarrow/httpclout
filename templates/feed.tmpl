@@ -91,22 +91,70 @@ function removeCookies() {
   document.cookie = 'httpclout_hex=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
   window.location.reload(false);
 }
+function handleMessage(e) {
+  console.log(e);
+  if (e.data.method == "initialize") {
+    var thing = Object();
+    thing.id = e.data.id;
+    thing.service = "identity";
+    thing.payload = Object();
+    window.CloutId = e.source;
+    window.CloutId.postMessage(thing, "*");
+  } 
+}
 function bumpDiamond(hash, theirPub58) {
   var h = document.getElementById("h-"+hash);
   var amount = parseInt(h.value);
   amount++;
   h.value = '--- please wait ---';
 
+  window.addEventListener('message', handleMessage);
+  var i = document.createElement('iframe');
+  i.style.display = 'none';
+  i.onload = function() { i.parentNode.removeChild(i); };
+  i.src = 'https://identity.bitclout.com/embed';
+  document.body.appendChild(i);
+
+  var cookieMap = Object();
+  var cookies = document.cookie.split(';');
+  for (var i=0; i<cookies.length; i++) {
+    var tokens = cookies[i].split('=');
+    cookieMap[tokens[0]] = tokens[1];
+  }
+
   var xhr = new XMLHttpRequest();
   xhr.open("POST", '/diamond', true);
   xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   xhr.onreadystatechange = function() {
     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+      var tx = xhr.responseText;
+      var thing = Object();
+      thing.id = createUUID();
+      thing.method = 'sign';
+      thing.service = "identity";
+      thing.payload = Object();
+      thing.payload.accessLevel = cookieMap['httpclout_level'];
+      thing.payload.accessLevelHmac = cookieMap['httpclout_hmac'];
+      thing.payload.encryptedSeedHex = cookieMap['httpclout_hex'];
+      thing.payload.transactionHex = tx;
+      window.CloutId.postMessage(thing, "*");
       h.value = amount.toString() + ' Diamond(s)';
     }
   }
   xhr.send("hash="+hash+"&theirPub58="+theirPub58);
 }
 
+function createUUID(){
+   
+    let dt = new Date().getTime()
+    
+    const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = (dt + Math.random()*16)%16 | 0
+        dt = Math.floor(dt/16)
+        return (c=='x' ? r :(r&0x3|0x8)).toString(16)
+    })
+    
+    return uuid
+}
 </script>
 {{template "_footer" .}}          

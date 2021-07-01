@@ -54,8 +54,9 @@ func HandleDiamond(c *gin.Context) {
 	hash := c.PostForm("hash")
 	theirPub58 := c.PostForm("theirPub58")
 	tx := cloutcli.GiveDiamond(pub58, theirPub58, hash)
-	fmt.Println(tx)
-	c.JSON(http.StatusOK, "")
+
+	//SubmitTxWithAlreadySignedHex(signedHex)
+	c.String(http.StatusOK, tx)
 }
 
 func WelcomeIndex(c *gin.Context) {
