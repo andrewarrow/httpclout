@@ -21,6 +21,7 @@ func RoutesSetup(router *gin.Engine) {
 
 	//router.Static("/static", "static")
 	router.GET("/", WelcomeIndex)
+	router.POST("/diamond", HandleDiamond)
 	router.GET("/exclude", ExcludeIndex)
 	router.GET("httpclout/biggest-fans-of/:username", BiggestFanOfShow)
 	router.NoRoute(HandleApi)
@@ -46,6 +47,10 @@ type PostWithLines struct {
 	Lines          []string
 	RecloutedLines []string
 	Timestamp      int64
+}
+
+func HandleDiamond(c *gin.Context) {
+	c.JSON(http.StatusOK, "")
 }
 
 func WelcomeIndex(c *gin.Context) {

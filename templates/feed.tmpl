@@ -95,7 +95,18 @@ function bumpDiamond(hash) {
   var h = document.getElementById("h-"+hash);
   var amount = parseInt(h.value);
   amount++;
-  h.value = amount.toString() + ' Diamond(s)';
+  h.value = '--- please wait ---';
+
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", '/diamond', true);
+  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  xhr.onreadystatechange = function() {
+    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+      h.value = amount.toString() + ' Diamond(s)';
+    }
+  }
+  xhr.send("hash="+hash);
 }
+
 </script>
 {{template "_footer" .}}          
