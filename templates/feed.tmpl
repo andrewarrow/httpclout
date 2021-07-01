@@ -17,34 +17,51 @@
 <table width="100%">
 {{range $i, $item := .items}}
 <tr>
-  <td>
+  <td valign="top" width="20%">
 
-          {{if $item.RecloutedPostEntryResponse }}
-          <a href="https://bitclout.com/u/{{$item.RecloutedPostEntryResponse.ProfileEntryResponse.Username}}">{{$item.RecloutedPostEntryResponse.ProfileEntryResponse.Username}}</a>
-          <br/>
-          <a href="https://bitclout.com/u/{{$item.RecloutedPostEntryResponse.ProfileEntryResponse.Username}}">
-          <img height="50" src="https://bitclout.com/api/v0/get-single-profile-picture/{{$item.RecloutedPostEntryResponse.PosterPublicKeyBase58Check}}"/>
-           {{else}}
-          <a href="https://bitclout.com/u/{{$item.ProfileEntryResponse.Username}}">{{$item.ProfileEntryResponse.Username}}</a>
-          <br/>
-          <a href="https://bitclout.com/u/{{$item.ProfileEntryResponse.Username}}">
-          <img height="50" src="https://bitclout.com/api/v0/get-single-profile-picture/{{$item.PosterPublicKeyBase58Check}}"/>
-          {{end}}
+  {{if .Post.RecloutedPostEntryResponse }}
+          <a href="https://bitclout.com/u/{{.Post.RecloutedPostEntryResponse.ProfileEntryResponse.Username}}">
+          <img height="50" src="{{$.baseURL}}api/v0/get-single-profile-picture/{{.Post.RecloutedPostEntryResponse.PosterPublicKeyBase58Check}}"/>
           </a>
+          <br/>
+          <a href="https://bitclout.com/u/{{.Post.RecloutedPostEntryResponse.ProfileEntryResponse.Username}}">{{.Post.RecloutedPostEntryResponse.ProfileEntryResponse.Username}}</a>
+  {{else}}
+          <a href="https://bitclout.com/u/{{.Post.ProfileEntryResponse.Username}}">
+          <img height="50" src="{{$.baseURL}}api/v0/get-single-profile-picture/{{.Post.PosterPublicKeyBase58Check}}"/>
+          </a>
+          <br/>
+          <a href="https://bitclout.com/u/{{.Post.ProfileEntryResponse.Username}}">{{.Post.ProfileEntryResponse.Username}}</a>
+  {{end}}
+  <br/>
+  <br/>
+  <a href="https://bitclout.com/posts/{{.Post.PostHashHex}}">{{ago .Post.TimestampNanos}}</a>
   </td>
-  <td width="50%">
-          {{$item.Body}}
-          {{range $j, $img := $item.ImageURLs}}
+  <td>
+          &nbsp;
+  </td>
+  <td width="60%" style="overflow-wrap: anywhere; -ms-word-break: break-all; word-break: break-all; word-break: break-word; outline: none;">
+{{range $j, $sub := .Lines}}
+        {{$sub}}<br/>
+{{end}}
+          {{range $j, $img := .Post.ImageURLs}}
                   <br/>
                   <img src="{{$img}}" width="200"/>
           {{end}}
 
                   <br/>
-          {{if $item.RecloutedPostEntryResponse }}
-              {{$item.RecloutedPostEntryResponse.Body}}
+          {{if .Post.RecloutedPostEntryResponse }}
+                  <div style="border: 5px solid green; padding: 1em;">
+{{range $j, $sub := .RecloutedLines}}
+        {{$sub}}<br/>
+{{end}}
+                  </div>
           {{end}}
+  <br/>
+  <br/>
   </td>
-  <td nowrap><a href="https://bitclout.com/posts/{{$item.PostHashHex}}">{{ago $item.TimestampNanos}}</a></td>
+  <td width="20%">
+      &nbsp; 
+  </td>
 </tr>
 {{end}}
 </table>

@@ -40,6 +40,13 @@ func HandleApi(c *gin.Context) {
 
 	reverseProxy.ServeHTTP(c.Writer, c.Request)
 }
+
+type PostWithLines struct {
+	Post           lib.Post
+	Lines          []string
+	RecloutedLines []string
+}
+
 func WelcomeIndex(c *gin.Context) {
 	pub58, _ := c.Cookie("httpclout_pub58")
 	if pub58 == "" {
@@ -47,9 +54,19 @@ func WelcomeIndex(c *gin.Context) {
 	} else {
 		network.NodeURL = os.Getenv("CLOUT_API_INTERNAL_URL")
 		items := cloutcli.FollowingFeedPub58(pub58)
+		list := []PostWithLines{}
+		for _, item := range items {
+			pwl := PostWithLines{}
+			pwl.Post = item
+			pwl.Lines = strings.Split(item.Body, "\n")
+			if item.RecloutedPostEntryResponse != nil {
+				pwl.RecloutedLines = strings.Split(item.RecloutedPostEntryResponse.Body, "\n")
+			}
+			list = append(list, pwl)
+		}
 		c.HTML(http.StatusOK, "feed.tmpl",
 			gin.H{"baseURL": os.Getenv("CLOUT_API_EXTERNAL_URL"),
-				"pub58": pub58, "items": items})
+				"pub58": pub58, "items": list})
 	}
 	return
 }
