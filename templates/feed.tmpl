@@ -50,7 +50,7 @@
           {{end}}
 
                   <br/>
-                  <form><input type="submit" value="{{.Post.DiamondCount}} Diamond(s)"/></form>
+                  <form onsubmit="bumpDiamond('{{.Post.PostHashHex}}'); return false;"><input id="h-{{.Post.PostHashHex}}" type="submit" value="{{.Post.DiamondCount}} Diamond(s)"/></form>
                   <br/>
           {{if .Post.RecloutedPostEntryResponse }}
                   <div style="border: 5px solid green; padding: 1em;">
@@ -61,7 +61,7 @@
                   <img src="{{$img}}" width="200"/>
                   <br/>
           {{end}}
-                  <form><input type="submit" value="{{.Post.RecloutedPostEntryResponse.DiamondCount}} Diamond(s)"/></form>
+                  <form onsubmit="bumpDiamond('{{.Post.RecloutedPostEntryResponse.PostHashHex}}'); return false;"><input id="h-{{.Post.RecloutedPostEntryResponse.PostHashHex}}" type="submit" value="{{.Post.RecloutedPostEntryResponse.DiamondCount}} Diamond(s)"/></form>
                   </div>
           {{end}}
   <br/>
@@ -90,6 +90,12 @@ function removeCookies() {
   document.cookie = 'httpclout_hmac=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
   document.cookie = 'httpclout_hex=""; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
   window.location.reload(false);
+}
+function bumpDiamond(hash) {
+  var h = document.getElementById("h-"+hash);
+  var amount = parseInt(h.value);
+  amount++;
+  h.value = amount.toString() + ' Diamond(s)';
 }
 </script>
 {{template "_footer" .}}          
