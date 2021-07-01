@@ -108,18 +108,11 @@ function bumpDiamond(hash, theirPub58) {
   amount++;
   h.value = '--- please wait ---';
 
-  window.addEventListener('message', handleMessage);
-  var i = document.createElement('iframe');
-  i.style.display = 'none';
-  i.onload = function() { i.parentNode.removeChild(i); };
-  i.src = 'https://identity.bitclout.com/embed';
-  document.body.appendChild(i);
-
   var cookieMap = Object();
   var cookies = document.cookie.split(';');
   for (var i=0; i<cookies.length; i++) {
     var tokens = cookies[i].split('=');
-    cookieMap[tokens[0]] = tokens[1];
+    cookieMap[tokens[0].trim()] = tokens[1];
   }
 
   var xhr = new XMLHttpRequest();
@@ -133,9 +126,9 @@ function bumpDiamond(hash, theirPub58) {
       thing.method = 'sign';
       thing.service = "identity";
       thing.payload = Object();
-      thing.payload.accessLevel = cookieMap['httpclout_level'];
-      thing.payload.accessLevelHmac = cookieMap['httpclout_hmac'];
-      thing.payload.encryptedSeedHex = cookieMap['httpclout_hex'];
+      thing.payload.accessLevel = cookieMap.httpclout_level;
+      thing.payload.accessLevelHmac = cookieMap.httpclout_hmac;
+      thing.payload.encryptedSeedHex = cookieMap.httpclout_hex;
       thing.payload.transactionHex = tx;
       window.CloutId.postMessage(thing, "*");
       h.value = amount.toString() + ' Diamond(s)';
@@ -156,5 +149,13 @@ function createUUID(){
     
     return uuid
 }
+
+  window.addEventListener('message', handleMessage);
+  var i = document.createElement('iframe');
+  i.style.display = 'none';
+  i.onload = function() { i.parentNode.removeChild(i); };
+  i.src = 'https://identity.bitclout.com/embed';
+  document.body.appendChild(i);
+
 </script>
 {{template "_footer" .}}          
