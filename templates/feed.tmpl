@@ -45,8 +45,8 @@
         {{$sub}}<br/>
 {{end}}
           {{range $j, $img := .Post.ImageURLs}}
-                  <br/>
                   <img src="{{$img}}" width="200"/>
+                  <br/>
           {{end}}
 
                   <br/>
@@ -55,6 +55,10 @@
 {{range $j, $sub := .RecloutedLines}}
         {{$sub}}<br/>
 {{end}}
+          {{range $j, $img := .Post.RecloutedPostEntryResponse.ImageURLs}}
+                  <img src="{{$img}}" width="200"/>
+                  <br/>
+          {{end}}
                   </div>
           {{end}}
   <br/>
