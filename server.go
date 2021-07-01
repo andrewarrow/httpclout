@@ -22,6 +22,7 @@ func RoutesSetup(router *gin.Engine) {
 	//router.Static("/static", "static")
 	router.GET("/", WelcomeIndex)
 	router.POST("/diamond", HandleDiamond)
+	router.POST("/tx", HandleTx)
 	router.GET("/exclude", ExcludeIndex)
 	router.GET("httpclout/biggest-fans-of/:username", BiggestFanOfShow)
 	router.NoRoute(HandleApi)
@@ -49,6 +50,11 @@ type PostWithLines struct {
 	Timestamp      int64
 }
 
+func HandleTx(c *gin.Context) {
+	signedHex := c.PostForm("signedHex")
+	network.SubmitTxWithAlreadySignedHex(signedHex)
+	c.String(http.StatusOK, "")
+}
 func HandleDiamond(c *gin.Context) {
 	pub58, _ := c.Cookie("httpclout_pub58")
 	hash := c.PostForm("hash")
