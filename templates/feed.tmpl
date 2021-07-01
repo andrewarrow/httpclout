@@ -18,6 +18,13 @@
 {{range $i, $item := .items}}
 <tr>
   <td valign="top" width="20%">
+          <a href="https://bitclout.com/u/{{.Post.ProfileEntryResponse.Username}}">
+          <img height="50" src="{{$.baseURL}}api/v0/get-single-profile-picture/{{.Post.PosterPublicKeyBase58Check}}"/>
+          </a>
+          <br/>
+          <a href="https://bitclout.com/u/{{.Post.ProfileEntryResponse.Username}}">{{.Post.ProfileEntryResponse.Username}}</a>
+  <br/>
+  <br/>
 
   {{if .Post.RecloutedPostEntryResponse }}
           <a href="https://bitclout.com/u/{{.Post.RecloutedPostEntryResponse.ProfileEntryResponse.Username}}">
@@ -25,15 +32,9 @@
           </a>
           <br/>
           <a href="https://bitclout.com/u/{{.Post.RecloutedPostEntryResponse.ProfileEntryResponse.Username}}">{{.Post.RecloutedPostEntryResponse.ProfileEntryResponse.Username}}</a>
-  {{else}}
-          <a href="https://bitclout.com/u/{{.Post.ProfileEntryResponse.Username}}">
-          <img height="50" src="{{$.baseURL}}api/v0/get-single-profile-picture/{{.Post.PosterPublicKeyBase58Check}}"/>
-          </a>
           <br/>
-          <a href="https://bitclout.com/u/{{.Post.ProfileEntryResponse.Username}}">{{.Post.ProfileEntryResponse.Username}}</a>
+          <br/>
   {{end}}
-  <br/>
-  <br/>
   <a href="https://bitclout.com/posts/{{.Post.PostHashHex}}">{{ago .Post.TimestampNanos}}</a>
   </td>
   <td>
@@ -62,6 +63,13 @@
   <td width="20%">
       &nbsp; 
   </td>
+</tr>
+<tr>
+        <td colspan="3">
+          <div style="padding: 1em;">
+                <hr/>
+          </div>
+        </td>
 </tr>
 {{end}}
 </table>
