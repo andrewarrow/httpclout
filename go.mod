@@ -2,6 +2,8 @@ module httpclout
 
 go 1.16
 
+replace github.com/andrewarrow/cloutcli => ../cloutcli
+
 require (
 	github.com/andrewarrow/cloutcli v0.0.10
 	github.com/gin-gonic/gin v1.7.2

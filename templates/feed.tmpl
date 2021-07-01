@@ -50,6 +50,8 @@
           {{end}}
 
                   <br/>
+                  <form><input type="submit" value="{{.Post.DiamondCount}} Diamond(s)"/></form>
+                  <br/>
           {{if .Post.RecloutedPostEntryResponse }}
                   <div style="border: 5px solid green; padding: 1em;">
 {{range $j, $sub := .RecloutedLines}}
@@ -59,6 +61,7 @@
                   <img src="{{$img}}" width="200"/>
                   <br/>
           {{end}}
+                  <form><input type="submit" value="{{.Post.RecloutedPostEntryResponse.DiamondCount}} Diamond(s)"/></form>
                   </div>
           {{end}}
   <br/>
