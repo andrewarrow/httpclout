@@ -45,6 +45,7 @@ type PostWithLines struct {
 	Post           lib.Post
 	Lines          []string
 	RecloutedLines []string
+	Timestamp      int64
 }
 
 func WelcomeIndex(c *gin.Context) {
@@ -58,6 +59,7 @@ func WelcomeIndex(c *gin.Context) {
 		for _, item := range items {
 			pwl := PostWithLines{}
 			pwl.Post = item
+			pwl.Timestamp = item.TimestampNanos / 1000000000
 			pwl.Lines = strings.Split(item.Body, "\n")
 			if item.RecloutedPostEntryResponse != nil {
 				pwl.RecloutedLines = strings.Split(item.RecloutedPostEntryResponse.Body, "\n")
