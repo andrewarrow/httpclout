@@ -3,9 +3,28 @@
           <h1>httpclout</h1>
           <h2><a href="https://github.com/andrewarrow/httpclout">https://github.com/andrewarrow/httpclout</a></h2>
 
+          <!--
           <div>
                   <h2><a href="#" onclick="window.addEventListener('message', handleMessage); window.CloutLogin = window.open('https://identity.bitclout.com/log-in?accessLevelRequest=3', null, 'toolbar=no, width=800, height=1000, top=0, left=0'); return false;">Log In</a></h2>
           </div>
+          -->
+
+          <div>
+<table width="100%">
+{{range $i, $item := .items}}
+<tr>
+  <td valign="top" width="20%">
+    <a href="https://bitclout.com/posts/{{.PostHashHex}}">
+    <img height="50" src="https://bitclout.com/api/v0/get-single-profile-picture/{{.PosterPub58}}"/>
+    </a>
+  </td>
+  <td valign="top" width="50%">
+      {{.Body}}
+  </td>
+</tr>
+{{end}}
+</table>
+
 
 <script>
 function handleMessage(e) {

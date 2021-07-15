@@ -68,7 +68,7 @@ func HandleDiamond(c *gin.Context) {
 func WelcomeIndex(c *gin.Context) {
 	pub58, _ := c.Cookie("httpclout_pub58")
 	if pub58 == "" {
-		c.HTML(http.StatusOK, "welcome.tmpl", gin.H{})
+		c.HTML(http.StatusOK, "welcome.tmpl", gin.H{"items": Last100Posts})
 	} else {
 		network.NodeURL = os.Getenv("CLOUT_API_INTERNAL_URL")
 		items := cloutcli.FollowingFeedPub58(pub58)

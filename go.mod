@@ -3,7 +3,7 @@ module httpclout
 go 1.16
 
 //replace github.com/andrewarrow/cloutcli => ../cloutcli
-//replace github.com/btcsuite/btcutil => /Users/aa/cloutcli/cmd/vendor/github.com/btcsuite/btcutil
+replace github.com/btcsuite/btcutil => ../btcutil
 
 require (
 	github.com/andrewarrow/cloutcli v0.0.12

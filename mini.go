@@ -1,24 +1,23 @@
 package main
 
 import (
-	"fmt"
 	"net"
-	"time"
 
 	"github.com/andrewarrow/mini/lib"
 )
 
+var Last100Posts = []lib.MiniPost{}
+
 func ListenForPosts() {
 	go func() {
 		for mp := range lib.MiniPostChan {
-			fmt.Println(mp.Body)
-			fmt.Println("")
-			fmt.Println(time.Unix(mp.Timestamp, 0))
-			fmt.Println("")
-			fmt.Println("https://bitclout.com/posts/" + mp.PostHashHex)
-			fmt.Println("Poster Public Key", mp.PosterPub58)
-			fmt.Println("")
-			fmt.Println("")
+			if mp.Body == "{\"Body\":\"\",\"ImageURLs\":null}" {
+				continue
+			}
+			Last100Posts = append([]lib.MiniPost{mp}, Last100Posts...)
+			if len(Last100Posts) > 100 {
+				Last100Posts = Last100Posts[0 : len(Last100Posts)-1]
+			}
 		}
 	}()
 
