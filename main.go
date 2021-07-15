@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+	go ListenForPosts()
 	router := gin.New()
 	router.Use(gin.Logger())
 	RoutesSetup(router)
