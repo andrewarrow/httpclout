@@ -11,7 +11,7 @@ var Last100Posts = []lib.MiniPost{}
 func ListenForPosts() {
 	go func() {
 		for mp := range lib.MiniPostChan {
-			if mp.Body == "{\"Body\":\"\",\"ImageURLs\":null}" {
+			if mp.Body == "" {
 				continue
 			}
 			Last100Posts = append([]lib.MiniPost{mp}, Last100Posts...)
