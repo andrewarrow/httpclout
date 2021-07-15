@@ -13,12 +13,12 @@
 <table width="100%">
 {{range $i, $item := .items}}
 <tr>
-  <td valign="top" width="20%">
+  <td valign="top" width="10%">
     <a href="https://bitclout.com/posts/{{.PostHashHex}}">
     <img height="50" src="https://bitclout.com/api/v0/get-single-profile-picture/{{.PosterPub58}}"/>
     </a>
   </td>
-  <td valign="top" width="60%" style="overflow-wrap: anywhere; -ms-word-break: break-all; word-break: break-all; word-break: break-word; outline: none;">
+  <td valign="top" width="40%" style="overflow-wrap: anywhere; -ms-word-break: break-all; word-break: break-all; word-break: break-word; outline: none;">
         {{range $j, $sub := .BodyLines}}
             {{$sub}}<br/>
         {{end}}
@@ -26,6 +26,14 @@
             <img src="{{$img}}" width="200"/>
             <br/>
         {{end}}
+  </td>
+  <td valign="top" width="10%">
+          &nbsp;
+  </td>
+  <td valign="top" width="40%">
+    moments ago
+    <br/>
+    {{ts .Timestamp}}
   </td>
 </tr>
 {{end}}

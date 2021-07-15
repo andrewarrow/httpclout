@@ -123,6 +123,10 @@ func ExcludeIndex(c *gin.Context) {
 func AddTemplates(r *gin.Engine) {
 	fm := template.FuncMap{
 		"mod": func(i, j int) bool { return i%j == 0 },
+		"ts": func(i int64) string {
+			d := time.Unix(i, 0)
+			return fmt.Sprintf("%v", d)
+		},
 		"ago": func(i int64) string {
 			d, _ := time.ParseDuration(fmt.Sprintf("%ds", time.Now().Unix()-i))
 			return timeago.FromDuration(d)
