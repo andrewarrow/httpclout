@@ -6,7 +6,7 @@
           <br/>
           <br/>
 
-          We display a random new post, yet to receive any diamonds yet.
+          We display a random new post, yet to receive any diamonds.
           You keep saying NO until we present one to you that is so good, you can't resist.
           <br/>
           <br/>
@@ -29,6 +29,12 @@
     </a>
   </td>
   <td valign="top" width="40%" style="overflow-wrap: anywhere; -ms-word-break: break-all; word-break: break-all; word-break: break-word; outline: none;">
+
+          
+          <div onclick="document.location.href='/yes-or-no';" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">NO</div>
+          <div onclick="document.location.href='/yes-or-no';" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">YES</div>
+          <br/>
+
         {{range $j, $sub := .Post.BodyLines}}
             {{$sub}}<br/>
         {{end}}
