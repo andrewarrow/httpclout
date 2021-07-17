@@ -1,0 +1,74 @@
+{{template "_header" .}}
+
+          <h1>cloutcli's yes or no</h1>
+          <div>
+          <a href="https://bitclout.com/u/cloutcli">cloutcli</a> invites you to play the yes-or-no diamond game.
+          <br/>
+          <br/>
+
+          We display a random new post, yet to receive any diamonds yet.
+          You keep saying NO until we present one to you that is so good, you can't resist.
+          <br/>
+          <br/>
+          <br/>
+           
+          </div>
+
+          <!--
+          <div>
+                  <h2><a href="#" onclick="window.addEventListener('message', handleMessage); window.CloutLogin = window.open('https://identity.bitclout.com/log-in?accessLevelRequest=3', null, 'toolbar=no, width=800, height=1000, top=0, left=0'); return false;">Log In</a></h2>
+          </div>
+          -->
+
+          <div>
+<table width="100%">
+<tr>
+  <td valign="top" width="10%">
+    <a href="https://bitclout.com/posts/{{.Post.PostHashHex}}">
+    <img height="250" src="https://bitclout.com/api/v0/get-single-profile-picture/{{.Post.PosterPub58}}"/>
+    </a>
+  </td>
+  <td valign="top" width="40%" style="overflow-wrap: anywhere; -ms-word-break: break-all; word-break: break-all; word-break: break-word; outline: none;">
+        {{range $j, $sub := .Post.BodyLines}}
+            {{$sub}}<br/>
+        {{end}}
+        {{range $j, $img := .Post.ImageURLs}}
+            <img src="{{$img}}" width="200"/>
+            <br/>
+        {{end}}
+  </td>
+  <td valign="top" width="10%">
+          &nbsp;
+  </td>
+  <td valign="top" width="40%">
+    moments ago
+    <br/>
+    {{ts .Post.Timestamp}}
+  </td>
+</tr>
+</table>
+
+
+<script>
+function handleMessage(e) {
+  console.log(e);
+  if (e.data.method == "initialize") {
+    var thing = Object();
+    thing.id = e.data.id;
+    thing.service = "identity";
+    thing.payload = Object();
+    e.source.postMessage(thing, "*");
+  } else if (e.data.method == "login") {
+    window.CloutLogin.close();
+    var pub58 = e.data.payload.publicKeyAdded;
+    console.log(pub58);
+    var me = e.data.payload.users[pub58];
+    document.cookie = 'httpclout_pub58='+pub58+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+    document.cookie = 'httpclout_level='+me.accessLevel+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+    document.cookie = 'httpclout_hmac='+me.accessLevelHmac+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+    document.cookie = 'httpclout_hex='+me.encryptedSeedHex+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+    window.location.reload(false);
+  }
+}
+</script>
+{{template "_footer" .}}          

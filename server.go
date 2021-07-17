@@ -21,6 +21,7 @@ func RoutesSetup(router *gin.Engine) {
 
 	//router.Static("/static", "static")
 	router.GET("/", WelcomeIndex)
+	router.GET("/yes-or-no", YesOrNoIndex)
 	router.POST("/diamond", HandleDiamond)
 	router.POST("/tx", HandleTx)
 	router.GET("/exclude", ExcludeIndex)

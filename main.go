@@ -2,11 +2,15 @@ package main
 
 import (
 	"os"
+	"time"
+
+	"math/rand"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+	rand.Seed(time.Now().UnixNano())
 	go ListenForPosts()
 	router := gin.New()
 	router.Use(gin.Logger())
