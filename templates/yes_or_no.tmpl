@@ -73,9 +73,9 @@
           <div onclick="document.location.href='/yes-or-no';" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">NO</div>
 
  {{ if .pub58 }}
-          <div onclick="handleIdentityDiamondPost('{{.Post.PostHashHex}}', '{{.Post.PosterPub58}}');" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">YES</div>
+          <div id='yes-button' onclick="document.getElementById('yes-button').innerHTML='please wait...'; handleIdentityDiamondPost('{{.Post.PostHashHex}}', '{{.Post.PosterPub58}}');" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">YES</div>
   {{ else }}
-          <div onclick="handleIdentityBitcloutLogin('{{.Post.PostHashHex}}', '{{.Post.PosterPub58}}');" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">YES</div>
+          <div id='yes-button' onclick="document.getElementById('yes-button').innerHTML='please wait...'; handleIdentityBitcloutLogin('{{.Post.PostHashHex}}', '{{.Post.PosterPub58}}');" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">YES</div>
   {{ end }}
           <br/>
 
