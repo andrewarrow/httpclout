@@ -1,6 +1,39 @@
 {{template "_header" .}}
 
+<table>
+        <tr>
+                <td>
           <h1>cloutcli's yes or no</h1>
+                </td>
+                <td>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        {{ if .pub58 }}
+                        Logged In As:
+                        {{ end }}
+                </td>
+                <td>
+                        &nbsp;
+                        {{ if .pub58 }}
+                           <img height="50" src="https://bitclout.com/api/v0/get-single-profile-picture/{{.pub58}}"/>
+                        {{ end }}
+                </td>
+                <td>
+                        &nbsp;
+                </td>
+                <td>
+                        {{ if .pub58 }}
+                        <form action="/logout" method="post" onsubmit="handleIdentityBitcloutLogout(); return false;">
+                                <input type="submit" name="logout" value="logout"/>
+                        </form>
+                        {{ end }}
+                </td>
+        </tr>
+</table>
           <div>
           <a href="https://bitclout.com/u/cloutcli">cloutcli</a> invites you to play the yes-or-no diamond game.
           <br/>
@@ -32,7 +65,12 @@
 
           
           <div onclick="document.location.href='/yes-or-no';" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">NO</div>
-          <div onclick="document.location.href='/yes-or-no';" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">YES</div>
+
+ {{ if .pub58 }}
+          <div onclick="handleIdentityDiamondPost({{.Post.PostHashHex}});" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">YES</div>
+  {{ else }}
+          <div onclick="handleIdentityBitcloutLogin({{.Post.PostHashHex}});" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">YES</div>
+  {{ end }}
           <br/>
 
         {{range $j, $sub := .Post.BodyLines}}
@@ -53,28 +91,63 @@
   </td>
 </tr>
 </table>
-
+          </div>
 
 <script>
-function handleMessage(e) {
-  console.log(e);
-  if (e.data.method == "initialize") {
-    var thing = Object();
-    thing.id = e.data.id;
-    thing.service = "identity";
-    thing.payload = Object();
-    e.source.postMessage(thing, "*");
-  } else if (e.data.method == "login") {
-    window.CloutLogin.close();
-    var pub58 = e.data.payload.publicKeyAdded;
-    console.log(pub58);
-    var me = e.data.payload.users[pub58];
-    document.cookie = 'httpclout_pub58='+pub58+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
-    document.cookie = 'httpclout_level='+me.accessLevel+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
-    document.cookie = 'httpclout_hmac='+me.accessLevelHmac+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
-    document.cookie = 'httpclout_hex='+me.encryptedSeedHex+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
-    window.location.reload(false);
-  }
-}
-</script>
-{{template "_footer" .}}          
+      function handleIdentityBitcloutLogout() {
+         document.cookie = 'identity_pub58=; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+         document.cookie = 'identity_level=; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+         document.cookie = 'identity_hmac=; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+         document.cookie = 'identity_hex=; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+         window.location.reload(false);
+      };
+
+      function handleIdentityBitcloutLogin(postHashHex) {
+        window.identityWindow = window.open('https://identity.bitclout.com/log-in?accessLevelRequest=4', null, 'toolbar=no, width=800, height=1000, top=0, left=0');
+      }
+ 
+      function handleIdentityDiamondPost(postHashHex) {
+      }
+
+      function makeCookieMap() {
+        var cookieMap = Object();
+        var cookies = document.cookie.split(';');
+        for (var i=0; i<cookies.length; i++) {
+          var tokens = cookies[i].split('=');
+          cookieMap[tokens[0].trim()] = tokens[1];
+        }
+        return cookieMap;
+      }
+
+      function respond(window, id, payload) {
+        window.postMessage({ id, service: "identity", payload }, "*");
+      }
+      
+      window.addEventListener("message", function (event) {
+        let method = event.data.method;
+        if (method === "initialize") {
+           respond(event.source, event.data.id, {});
+        } else if (method === "login") {
+            window.identityWindow.close();
+
+            let eventPayload = event.data.payload;
+            let pub58 = eventPayload.publicKeyAdded;
+            var me = eventPayload.users[pub58];
+            me.pub58 = pub58;
+
+            document.cookie = 'identity_pub58='+pub58+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+            document.cookie = 'identity_level='+me.accessLevel+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+            document.cookie = 'identity_hmac='+me.accessLevelHmac+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+            document.cookie = 'identity_hex='+me.encryptedSeedHex+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
+            window.location.reload(false);
+        }
+      });
+    </script>
+    <iframe
+      class="hidden"
+      id="identity"
+      frameborder="0"
+      src="https://identity.bitclout.com/embed"
+      style="height: 100vh; width: 100vw;"
+      [style.display]="requestingStorageAccess ? 'block' : 'none'"></iframe>
+{{template "_footer" .}}
