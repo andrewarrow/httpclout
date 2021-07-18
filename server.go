@@ -23,7 +23,7 @@ func RoutesSetup(router *gin.Engine) {
 	router.GET("/", WelcomeIndex)
 	router.GET("/yes-or-no", YesOrNoIndex)
 	router.POST("/diamond", HandleDiamond)
-	router.POST("/tx", HandleTx)
+	router.POST("/submit-tx", HandleTx)
 	router.GET("/exclude", ExcludeIndex)
 	router.GET("httpclout/biggest-fans-of/:username", BiggestFanOfShow)
 	router.NoRoute(HandleApi)
@@ -52,7 +52,7 @@ type PostWithLines struct {
 }
 
 func HandleTx(c *gin.Context) {
-	signedHex := c.PostForm("signedHex")
+	signedHex := c.PostForm("tx")
 	network.SubmitTxWithAlreadySignedHex(signedHex)
 	c.String(http.StatusOK, "")
 }
