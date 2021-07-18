@@ -64,7 +64,7 @@
 <tr>
   <td valign="top" width="10%">
     <a href="https://bitclout.com/posts/{{.Post.PostHashHex}}">
-    <img height="250" src="https://bitclout.com/api/v0/get-single-profile-picture/{{.Post.PosterPub58}}"/>
+    <img width="250" src="https://bitclout.com/api/v0/get-single-profile-picture/{{.Post.PosterPub58}}"/>
     </a>
   </td>
   <td valign="top" width="40%" style="overflow-wrap: anywhere; -ms-word-break: break-all; word-break: break-all; word-break: break-word; outline: none;">
@@ -80,10 +80,12 @@
           <br/>
 
         {{range $j, $sub := .Post.BodyLines}}
-            {{$sub}}<br/>
+                <div style="font-size: 1.2em">
+            {{$sub}}
+                </div>
         {{end}}
         {{range $j, $img := .Post.ImageURLs}}
-            <img src="{{$img}}" width="200"/>
+            <img src="{{$img}}" width="400"/>
             <br/>
         {{end}}
   </td>

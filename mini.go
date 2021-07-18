@@ -8,7 +8,9 @@ import (
 )
 
 var Last100Posts = []lib.MiniPost{}
-var Mutex sync.Mutex
+var Last1000Posts = []lib.MiniPost{}
+var Mutex100 sync.Mutex
+var Mutex1000 sync.Mutex
 
 func ListenForPosts() {
 	go func() {
@@ -16,12 +18,21 @@ func ListenForPosts() {
 			if mp.Body == "" {
 				continue
 			}
-			Mutex.Lock()
+			Mutex100.Lock()
 			Last100Posts = append([]lib.MiniPost{mp}, Last100Posts...)
 			if len(Last100Posts) > 100 {
 				Last100Posts = Last100Posts[0 : len(Last100Posts)-1]
 			}
-			Mutex.Unlock()
+			Mutex100.Unlock()
+
+			Mutex1000.Lock()
+			if mp.PosterPub58 != "BC1YLfg6rAXxDdcJ95WRe9kKEbqfEgih4ewad1oXHbt4CKk2Mx22e5n" {
+				Last1000Posts = append([]lib.MiniPost{mp}, Last1000Posts...)
+			}
+			if len(Last1000Posts) > 1000 {
+				Last1000Posts = Last1000Posts[0 : len(Last1000Posts)-1]
+			}
+			Mutex1000.Unlock()
 		}
 	}()
 

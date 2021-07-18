@@ -9,9 +9,14 @@ import (
 
 func YesOrNoIndex(c *gin.Context) {
 	pub58, _ := c.Cookie("identity_pub58")
-	Mutex.Lock()
-	ranPost := Last100Posts[rand.Intn(len(Last100Posts))]
-	Mutex.Unlock()
+	Mutex1000.Lock()
+	if len(Last1000Posts) == 0 {
+		Mutex1000.Unlock()
+		c.String(http.StatusOK, "try again please")
+		return
+	}
+	ranPost := Last1000Posts[rand.Intn(len(Last1000Posts))]
+	Mutex1000.Unlock()
 	//ranPost := lib.MiniPost{}
 	//ranPost.PostHashHex = "9ef3afa082054898b21f056211e2c6f3f145bdea62d9805eb9e59e1538d595dc"
 	//ranPost.PosterPub58 = "BC1YLiCo6prb6M3xELpRbHUAtQvNAegcr2GHg1Z9LYDL52cZrbctHmr"

@@ -13,6 +13,7 @@ import (
 	"github.com/andrewarrow/cloutcli"
 	"github.com/andrewarrow/cloutcli/lib"
 	"github.com/andrewarrow/cloutcli/network"
+	minilib "github.com/andrewarrow/mini/lib"
 	"github.com/gin-gonic/gin"
 	"github.com/justincampbell/timeago"
 )
@@ -67,7 +68,13 @@ func HandleDiamond(c *gin.Context) {
 func WelcomeIndex(c *gin.Context) {
 	pub58, _ := c.Cookie("httpclout_pub58")
 	if pub58 == "" {
-		c.HTML(http.StatusOK, "welcome.tmpl", gin.H{"items": Last100Posts})
+		items := []minilib.MiniPost{}
+		Mutex100.Lock()
+		for _, p := range Last100Posts {
+			items = append(items, p)
+		}
+		Mutex100.Unlock()
+		c.HTML(http.StatusOK, "welcome.tmpl", gin.H{"items": items})
 	} else {
 		network.NodeURL = os.Getenv("CLOUT_API_INTERNAL_URL")
 		items := cloutcli.FollowingFeedPub58(pub58)
