@@ -47,11 +47,17 @@
            
           </div>
 
-          <!--
-          <div>
-                  <h2><a href="#" onclick="window.addEventListener('message', handleMessage); window.CloutLogin = window.open('https://identity.bitclout.com/log-in?accessLevelRequest=3', null, 'toolbar=no, width=800, height=1000, top=0, left=0'); return false;">Log In</a></h2>
+          {{ if .successTheirPub58 }}
+          <div style="text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">
+                  Success! You gave 1 diamond to:
+          <br/>
+    <img height="100" src="https://bitclout.com/api/v0/get-single-profile-picture/{{.successTheirPub58}}"/>
+          <br/>
+          for <a href="https://bitclout.com/posts/{{.successPostHashHex}}">this post</a>.
           </div>
-          -->
+          <br/>
+          <br/>
+          {{ end }}
 
           <div>
 <table width="100%">
@@ -103,10 +109,14 @@
       };
 
       function handleIdentityBitcloutLogin(postHashHex, theirPub58) {
+        window.rememberPostHashHex = postHashHex;
+        window.rememberTheirPub58 = theirPub58;
         window.identityWindow = window.open('https://identity.bitclout.com/log-in?accessLevelRequest=4', null, 'toolbar=no, width=800, height=1000, top=0, left=0');
       }
  
       function handleIdentityDiamondPost(postHashHex, theirPub58) {
+        window.rememberPostHashHex = postHashHex;
+        window.rememberTheirPub58 = theirPub58;
 
         fetch('/diamond', {
           method: 'post',
@@ -166,7 +176,7 @@
             document.cookie = 'identity_level='+me.accessLevel+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
             document.cookie = 'identity_hmac='+me.accessLevelHmac+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
             document.cookie = 'identity_hex='+me.encryptedSeedHex+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
-            window.location.reload(false);
+            handleIdentityDiamondPost(window.rememberPostHashHex, window.rememeberTheirPub58);
         } else if (event.data.payload !== undefined && event.data.payload.signedTransactionHex !== undefined) {
           let signedTransactionHex = event.data.payload.signedTransactionHex;
           console.log("st", signedTransactionHex);
@@ -179,7 +189,8 @@
                   },
                   body: 'tx='+signedTransactionHex
                 }).then(res => res.text())
-                  .then(res => alert('SUCCESS! You gave one diamond! Play again?'));
+                  .then(res => document.location.href='/yes-or-no?theirPub58=' + window.rememberTheirPub58 +
+                               '&postHashHex=' + window.rememberPostHashHex);
                 }
       });
 
@@ -197,6 +208,49 @@
       }
 
     </script>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
     <iframe
       class="hidden"
       id="identity"
