@@ -57,12 +57,10 @@ func HandleTx(c *gin.Context) {
 	c.String(http.StatusOK, "")
 }
 func HandleDiamond(c *gin.Context) {
-	pub58, _ := c.Cookie("httpclout_pub58")
-	hash := c.PostForm("hash")
+	pub58, _ := c.Cookie("identity_pub58")
+	hash := c.PostForm("postHashHex")
 	theirPub58 := c.PostForm("theirPub58")
 	tx := cloutcli.GiveDiamond(pub58, theirPub58, hash)
-
-	//SubmitTxWithAlreadySignedHex(signedHex)
 	c.String(http.StatusOK, tx)
 }
 

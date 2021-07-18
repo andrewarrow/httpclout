@@ -67,9 +67,9 @@
           <div onclick="document.location.href='/yes-or-no';" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">NO</div>
 
  {{ if .pub58 }}
-          <div onclick="handleIdentityDiamondPost({{.Post.PostHashHex}});" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">YES</div>
+          <div onclick="handleIdentityDiamondPost('{{.Post.PostHashHex}}', '{{.Post.PosterPub58}}');" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">YES</div>
   {{ else }}
-          <div onclick="handleIdentityBitcloutLogin({{.Post.PostHashHex}});" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">YES</div>
+          <div onclick="handleIdentityBitcloutLogin('{{.Post.PostHashHex}}', '{{.Post.PosterPub58}}');" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">YES</div>
   {{ end }}
           <br/>
 
@@ -102,11 +102,38 @@
          window.location.reload(false);
       };
 
-      function handleIdentityBitcloutLogin(postHashHex) {
+      function handleIdentityBitcloutLogin(postHashHex, theirPub58) {
         window.identityWindow = window.open('https://identity.bitclout.com/log-in?accessLevelRequest=4', null, 'toolbar=no, width=800, height=1000, top=0, left=0');
       }
  
-      function handleIdentityDiamondPost(postHashHex) {
+      function handleIdentityDiamondPost(postHashHex, theirPub58) {
+
+        fetch('/diamond', {
+          method: 'post',
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: 'theirPub58='+theirPub58+'&postHashHex='+postHashHex
+        }).then(res => res.text())
+          .then(res => handleTheSign(res));
+      }
+
+      function handleTheSign(res) {
+        var cookieMap = makeCookieMap()
+        var thing = Object();
+        thing.id = createUUID();
+        thing.method = 'sign';
+        thing.service = "identity";
+        thing.payload = Object();
+        thing.payload.accessLevel = 4;
+        thing.payload.accessLevelHmac = cookieMap["identity_hmac"];
+        thing.payload.encryptedSeedHex = cookieMap["identity_hex"];
+        thing.payload.transactionHex = res;
+
+        console.log(thing);
+        let iframe = document.getElementById("identity");
+        iframe.contentWindow.postMessage(thing, "*"); 
       }
 
       function makeCookieMap() {
@@ -140,8 +167,25 @@
             document.cookie = 'identity_hmac='+me.accessLevelHmac+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
             document.cookie = 'identity_hex='+me.encryptedSeedHex+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
             window.location.reload(false);
+        } else if (event.data.payload !== undefined && event.data.payload.signedTransactionHex !== undefined) {
+          let signedTransactionHex = event.data.payload.signedTransactionHex;
+          console.log("st", signedTransactionHex);
         }
       });
+
+      function createUUID() {
+
+            let dt = new Date().getTime()
+
+            const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = (dt + Math.random()*16)%16 | 0
+                dt = Math.floor(dt/16)
+                return (c=='x' ? r :(r&0x3|0x8)).toString(16)
+            })
+
+            return uuid
+      }
+
     </script>
     <iframe
       class="hidden"
