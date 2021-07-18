@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math/rand"
 	"net"
 	"sync"
 
@@ -8,7 +9,7 @@ import (
 )
 
 var Last100Posts = []lib.MiniPost{}
-var Last1000Posts = []lib.MiniPost{}
+var Last1000Posts = map[string]lib.MiniPost{}
 var Mutex100 sync.Mutex
 var Mutex1000 sync.Mutex
 
@@ -27,10 +28,20 @@ func ListenForPosts() {
 
 			Mutex1000.Lock()
 			if mp.PosterPub58 != "BC1YLfg6rAXxDdcJ95WRe9kKEbqfEgih4ewad1oXHbt4CKk2Mx22e5n" {
-				Last1000Posts = append([]lib.MiniPost{mp}, Last1000Posts...)
+				Last1000Posts[mp.PostHashHex] = mp
 			}
 			if len(Last1000Posts) > 1000 {
-				Last1000Posts = Last1000Posts[0 : len(Last1000Posts)-1]
+				ranIndex := rand.Intn(1000)
+				i := 0
+				key := ""
+				for k, _ := range Last1000Posts {
+					if i == ranIndex {
+						key = k
+						break
+					}
+					i++
+				}
+				delete(Last1000Posts, key)
 			}
 			Mutex1000.Unlock()
 		}

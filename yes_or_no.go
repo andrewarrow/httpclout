@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"net/http"
 
+	"github.com/andrewarrow/mini/lib"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,7 +16,16 @@ func YesOrNoIndex(c *gin.Context) {
 		c.String(http.StatusOK, "try again please")
 		return
 	}
-	ranPost := Last1000Posts[rand.Intn(len(Last1000Posts))]
+	ranIndex := rand.Intn(len(Last1000Posts))
+	i := 0
+	ranPost := lib.MiniPost{}
+	for _, v := range Last1000Posts {
+		if i == ranIndex {
+			ranPost = v
+			break
+		}
+		i++
+	}
 	Mutex1000.Unlock()
 	//ranPost := lib.MiniPost{}
 	//ranPost.PostHashHex = "9ef3afa082054898b21f056211e2c6f3f145bdea62d9805eb9e59e1538d595dc"
