@@ -130,6 +130,8 @@
       }
 
       function handleTheSign(res) {
+
+        console.log("res", res);
         var cookieMap = makeCookieMap()
         var thing = Object();
         thing.id = createUUID();
@@ -176,7 +178,7 @@
             document.cookie = 'identity_level='+me.accessLevel+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
             document.cookie = 'identity_hmac='+me.accessLevelHmac+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
             document.cookie = 'identity_hex='+me.encryptedSeedHex+'; expires=Sun, 1 Jan 2026 00:00:00 UTC; path=/';
-            handleIdentityDiamondPost(window.rememberPostHashHex, window.rememeberTheirPub58);
+            handleIdentityDiamondPost(window.rememberPostHashHex, window.rememberTheirPub58);
         } else if (event.data.payload !== undefined && event.data.payload.signedTransactionHex !== undefined) {
           let signedTransactionHex = event.data.payload.signedTransactionHex;
           console.log("st", signedTransactionHex);
