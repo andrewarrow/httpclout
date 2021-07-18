@@ -27,7 +27,7 @@ func ListenForPosts() {
 			Mutex100.Unlock()
 
 			Mutex1000.Lock()
-			if mp.PosterPub58 != "BC1YLfg6rAXxDdcJ95WRe9kKEbqfEgih4ewad1oXHbt4CKk2Mx22e5n" {
+			if len(mp.ImageURLs) > 0 {
 				Last1000Posts[mp.PostHashHex] = mp
 			}
 			if len(Last1000Posts) > 1000 {
