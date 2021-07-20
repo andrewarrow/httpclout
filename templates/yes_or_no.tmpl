@@ -1,105 +1,195 @@
 {{template "_header" .}}
 
-<table>
-        <tr>
-                <td>
-          <h1>cloutcli's yes or no</h1>
-                </td>
-                <td>
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
-                        {{ if .pub58 }}
-                        Logged In As:
-                        {{ end }}
-                </td>
-                <td>
-                        &nbsp;
-                        {{ if .pub58 }}
-                           <img height="50" src="https://bitclout.com/api/v0/get-single-profile-picture/{{.pub58}}"/>
-                        {{ end }}
-                </td>
-                <td>
-                        &nbsp;
-                </td>
-                <td>
-                        {{ if .pub58 }}
-                        <form action="/logout" method="post" onsubmit="handleIdentityBitcloutLogout(); return false;">
-                                <input type="submit" name="logout" value="logout"/>
-                        </form>
-                        {{ end }}
-                </td>
-        </tr>
-</table>
-          <div>
-          <a href="https://bitclout.com/u/cloutcli">cloutcli</a> invites you to play the yes-or-no diamond game.
-          <br/>
-          <br/>
+<style>
+  body {
+    text-align: center;
+    font-size: 1rem;
+  }
 
-          We display a random new post, yet to receive any diamonds.
-          You keep saying NO until we present one to you that is so good, you can't resist.
-          <br/>
-          <br/>
-          <br/>
-           
-          </div>
+  h1 {
+    font-size: 2em;
+  }
 
-          {{ if .successTheirPub58 }}
-          <div style="text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">
-                  Success! You gave 1 diamond to:
-          <br/>
-    <img height="100" src="https://bitclout.com/api/v0/get-single-profile-picture/{{.successTheirPub58}}"/>
-          <br/>
-          for <a href="https://bitclout.com/posts/{{.successPostHashHex}}">this post</a>.
-          </div>
-          <br/>
-          <br/>
-          {{ end }}
+  p {
+    margin: 5px 0;
+  }
 
-          <div>
-<table width="100%">
-<tr>
-  <td valign="top" width="10%">
-    <a href="https://bitclout.com/posts/{{.Post.PostHashHex}}">
-    <img width="250" src="https://bitclout.com/api/v0/get-single-profile-picture/{{.Post.PosterPub58}}"/>
-    </a>
-  </td>
-  <td valign="top" width="40%" style="overflow-wrap: anywhere; -ms-word-break: break-all; word-break: break-all; word-break: break-word; outline: none;">
+  .profile {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    top: 20px;
+    right: 20px;
+    position: absolute;
+  }
 
-          
-          <div onclick="document.location.href='/yes-or-no';" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">NO</div>
+  .profile-image {
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: 10px;
+  }
 
- {{ if .pub58 }}
-          <div id='yes-button' onclick="document.getElementById('yes-button').innerHTML='please wait...'; handleIdentityDiamondPost('{{.Post.PostHashHex}}', '{{.Post.PosterPub58}}');" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">YES</div>
+  .logout {
+    background-color: inherit;
+    color: inherit;
+    border: 2px solid green;
+    border-radius: 2px;
+    padding: 5px;
+    text-transform: uppercase;
+    margin-left: 20px;
+    cursor: pointer;
+  }
+
+  .success {
+    display: inline-block;
+    font-size: 1.5rem;
+    margin: 20px;
+    border: 2px solid gray;
+    border-radius: 5px;
+    padding: 20px 30px;
+    margin-bottom: 50px;
+  }
+
+  .success-image {
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 10px 0;
+    margin-bottom: 50px;
+  }
+
+  .post {
+    display: inline-flex;
+    text-decoration: none;
+    justify-content: center;
+    background: #191919 !important;
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .post-profile {
+    border-radius: 12px;
+    object-fit: cover;
+    margin-right: 20px;
+  }
+
+  .post-text {
+    text-align: left;
+  }
+
+  .post-image {
+    border-radius: 20px;
+    max-width: 100%;
+    max-height: 450px;
+    margin-top: 10px;
+  }
+
+  .buttons {
+    display: flex;
+    font-size: 3rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .buttons div {
+    padding: 10px;
+    cursor: pointer;
+    border: 2px solid currentColor;
+    width: 200px;
+    margin: 30px;
+  }
+
+  #yes-button {
+    color: rgb(0, 255, 0);
+  }
+
+  #no-button {
+    color: red;
+  }
+
+  @media (max-width: 1000px) {
+    body {
+      font-size: 14px;
+    }
+
+    .profile {
+      position: static;
+    }
+
+    .buttons {
+      font-size: 2.25rem;
+    }
+
+    .buttons div {
+      margin: 25px 15px;
+    }
+  }
+</style>
+
+{{ if .pub58 }}
+<div class='profile'>
+  Logged In As:
+  <img class='profile-image' height="50" width="50"
+    src="https://bitclout.com/api/v0/get-single-profile-picture/{{.pub58}}" />
+  <form action="/logout" method="post" onsubmit="handleIdentityBitcloutLogout(); return false;">
+    <input type="submit" name="logout" value="logout" class='logout' />
+  </form>
+</div>
+{{ end }}
+
+<h1>cloutcli's yes or no</h1>
+<p>
+  <a href="https://bitclout.com/u/cloutcli">cloutcli</a> invites you to play the yes-or-no diamond game.
+</p>
+<p>
+  We display a random new post, yet to receive any diamonds.
+</p>
+<p>
+  You keep saying NO until we present one to you that is so good, you can't resist.
+</p>
+
+{{ if .successTheirPub58 }}
+<div class="success">
+  Success! You gave 1 diamond to:
+  <br />
+  <img height="100" width='100' class='success-image'
+    src="https://bitclout.com/api/v0/get-single-profile-picture/{{.successTheirPub58}}" />
+  <br />
+  for <a href="https://bitclout.com/posts/{{.successPostHashHex}}">this
+    post</a>.
+</div>
+{{ end }}
+<div class='buttons'>
+  <div id='no-button' onclick="document.location.href='/yes-or-no';">
+    ✖ NO</div>
+  {{ if .pub58 }}
+  <div id='yes-button'
+    onclick="document.getElementById('yes-button').innerHTML='please wait...'; handleIdentityDiamondPost('{{.Post.PostHashHex}}', '{{.Post.PosterPub58}}');">
+    ✔ YES</div>
   {{ else }}
-          <div id='yes-button' onclick="document.getElementById('yes-button').innerHTML='please wait...'; handleIdentityBitcloutLogin('{{.Post.PostHashHex}}', '{{.Post.PosterPub58}}');" style="cursor: pointer; text-align: center; font-size: 5em; font-weight: bold; padding: 10px; border: 2px solid white;">YES</div>
+  <div id='yes-button'
+    onclick="document.getElementById('yes-button').innerHTML='please wait...'; handleIdentityBitcloutLogin('{{.Post.PostHashHex}}', '{{.Post.PosterPub58}}');">
+    ✔ YES</div>
   {{ end }}
-          <br/>
-
-        {{range $j, $sub := .Post.BodyLines}}
-                <div style="font-size: 1.2em">
-            {{$sub}}
-                </div>
-        {{end}}
-        {{range $j, $img := .Post.ImageURLs}}
-            <img src="{{$img}}" width="400"/>
-            <br/>
-        {{end}}
-  </td>
-  <td valign="top" width="10%">
-          &nbsp;
-  </td>
-  <td valign="top" width="40%">
-    moments ago
-    <br/>
-    {{ts .Post.Timestamp}}
-  </td>
-</tr>
-</table>
-          </div>
+</div>
+<a class='post' href="https://bitclout.com/posts/{{.Post.PostHashHex}}">
+  <img width="50" height="50" class='post-profile'
+    src="https://bitclout.com/api/v0/get-single-profile-picture/{{.Post.PosterPub58}}" />
+  <div class='post-text'>
+    {{range $j, $sub := .Post.BodyLines}}
+      <p style="font-size: 1.2em">
+        {{$sub}}
+      </p>
+    {{end}}
+    <p>
+      moments ago
+      <br />
+      {{ts .Post.Timestamp}}
+    </p>
+    {{range $j, $img := .Post.ImageURLs}}
+      <img class='post-image' src="{{$img}}"/>
+    {{end}}
+  </div>
+</a>
 
 <script>
       function handleIdentityBitcloutLogout() {
@@ -212,54 +302,11 @@
       }
 
     </script>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
     <iframe
       class="hidden"
       id="identity"
       frameborder="0"
       src="https://identity.bitclout.com/embed"
-      style="height: 100vh; width: 100vw;"
+      width="0" height="0"
       [style.display]="requestingStorageAccess ? 'block' : 'none'"></iframe>
 {{template "_footer" .}}
